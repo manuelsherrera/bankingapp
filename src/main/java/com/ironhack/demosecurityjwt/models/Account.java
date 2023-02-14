@@ -16,20 +16,25 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Embedded
     private Money balance;
     @ManyToOne
     @JoinColumn(name = "primary_owner_id")
-    private User primaryOwner;
+    private AccountHolder primaryOwner;
     @ManyToOne
     @JoinColumn(name = "secondary_owner_id")
-    private User secondaryOwner; //optional
-
+    private AccountHolder secondaryOwner; //optional
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="amount",column=@Column(name="penalty_fee_amount")),
+            @AttributeOverride(name="currency",column=@Column(name="penalty_fee_currency")),
+    })
     private Money penaltyFee = new Money(new BigDecimal("40"));
 
     public Account() {
     }
 
-    public Account(Money balance, User primaryOwner, User secondaryOwner, Money penaltyFee) {
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee) {
         setBalance(balance);
         setPrimaryOwner(primaryOwner);
         setSecondaryOwner(secondaryOwner);
@@ -44,19 +49,19 @@ public class Account {
         this.balance = balance;
     }
 
-    public User getPrimaryOwner() {
+    public AccountHolder getPrimaryOwner() {
         return primaryOwner;
     }
 
-    public void setPrimaryOwner(User primaryOwner) {
+    public void setPrimaryOwner(AccountHolder primaryOwner) {
         this.primaryOwner = primaryOwner;
     }
 
-    public User getSecondaryOwner() {
+    public AccountHolder getSecondaryOwner() {
         return secondaryOwner;
     }
 
-    public void setSecondaryOwner(User secondaryOwner) {
+    public void setSecondaryOwner(AccountHolder secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 

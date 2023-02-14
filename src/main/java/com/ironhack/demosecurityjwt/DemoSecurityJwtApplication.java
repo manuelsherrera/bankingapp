@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 
 @SpringBootApplication
-public class DemoSecurityJwtApplication {
+public class DemoSecurityJwtApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(DemoSecurityJwtApplication.class, args);
@@ -25,7 +25,13 @@ public class DemoSecurityJwtApplication {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
+    @Override
+    public void run(String... args) throws Exception {
+
+    }
+
+
+    /*@Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
             userService.saveRole(new Role(null, "ROLE_USER"));
@@ -42,6 +48,6 @@ public class DemoSecurityJwtApplication {
             userService.addRoleToUser("chris", "ROLE_ADMIN");
             userService.addRoleToUser("chris", "ROLE_USER");
         };
-    }
+    }*/
 
 }

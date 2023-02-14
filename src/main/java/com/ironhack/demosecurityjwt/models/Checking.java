@@ -1,7 +1,7 @@
 package com.ironhack.demosecurityjwt.models;
 
 import com.ironhack.demosecurityjwt.enums.Status;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,10 +10,20 @@ import java.time.LocalDate;
 public class Checking extends Account{
 
  private Long secretKey;
-
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="amount",column=@Column(name="minimum_amount")),
+            @AttributeOverride(name="currency",column=@Column(name="minimum_currency")),
+    })
  private Money minimumBalance = new Money(new BigDecimal("250"));
 
- private Money monthlyMaintenanceFee = new Money(new BigDecimal("40"));//
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="amount",column=@Column(name="maintenance_fee_amount")),
+            @AttributeOverride(name="currency",column=@Column(name="maintenance_fee_currency")),
+    })
+
+ private Money monthlyMaintenanceFee = new Money(new BigDecimal("12"));//
 
  private LocalDate creationDate = LocalDate.now();
 
@@ -22,7 +32,7 @@ public class Checking extends Account{
     public Checking() {
     }
 
-    public Checking(Money balance, User primaryOwner, User secondaryOwner, Money penaltyFee, Long secretKey, Money minimumBalance, Money monthlyMaintenanceFee, LocalDate creationDate, Status status) {
+    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, Long secretKey, Money minimumBalance, Money monthlyMaintenanceFee, LocalDate creationDate, Status status) {
         super(balance, primaryOwner, secondaryOwner, penaltyFee);
         setSecretKey(secretKey);
         setMinimumBalance(minimumBalance);

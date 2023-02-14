@@ -16,7 +16,6 @@ import static jakarta.persistence.FetchType.EAGER;
  */
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Inheritance (strategy = InheritanceType.JOINED)
 public class User {

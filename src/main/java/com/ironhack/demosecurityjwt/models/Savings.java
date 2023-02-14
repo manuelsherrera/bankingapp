@@ -1,6 +1,6 @@
 package com.ironhack.demosecurityjwt.models;
 import com.ironhack.demosecurityjwt.enums.Status;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -10,11 +10,22 @@ import java.time.LocalDate;
 
 @Entity
 public class Savings extends Account{
-    private Money balance;
     private Long secretKey;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="amount",column=@Column(name="minimum_balance_amount")),
+            @AttributeOverride(name="currency",column=@Column(name="minimum_balance_currency")),
+    })
     private Money minimumBalance = new Money(new BigDecimal("1000")) ;
 
     private LocalDate creationDate = LocalDate.now();
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="amount",column=@Column(name="interest_rate_amount")),
+            @AttributeOverride(name="currency",column=@Column(name="interest_rate_currency")),
+    })
     private Money interestRate = new Money(new BigDecimal("0.0025"));
     private Status status = Status.ACTIVE;
 
@@ -22,23 +33,13 @@ public class Savings extends Account{
     public Savings() {
     }
 
-    public Savings(Money balance, Long secretKey, Money minimumBalance, LocalDate creationDate, Money interestRate, Status status) {
-        setBalance(balance);
-        setSecretKey(secretKey);
-        setMinimumBalance(minimumBalance);
-        setCreationDate(creationDate);
-        setInterestRate(interestRate);
-        setStatus(status);
-    }
-
-    @Override
-    public Money getBalance() {
-        return balance;
-    }
-
-    @Override
-    public void setBalance(Money balance) {
-        this.balance = balance;
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, Long secretKey, Money minimumBalance, LocalDate creationDate, Money interestRate, Status status) {
+        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+        this.secretKey = secretKey;
+        this.minimumBalance = minimumBalance;
+        this.creationDate = creationDate;
+        this.interestRate = interestRate;
+        this.status = status;
     }
 
     public Long getSecretKey() {
@@ -54,7 +55,7 @@ public class Savings extends Account{
     }
 
     public void setMinimumBalance(Money minimumBalance) {
-        if( minimumBalance < 100){
+        if( minimumBalance.getAmount().compareTo(new BigDecimal("100")) == -1){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minimum balance should be over 100");
         }
         this.minimumBalance = minimumBalance;
@@ -73,7 +74,7 @@ public class Savings extends Account{
     }
 
     public void setInterestRate(Money interestRate) {
-        if(interestRate > 0.5 ){
+        if(interestRate.getAmount().compareTo(new BigDecimal("0.5")) == 1){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate can't be over 0.5");
         }
         this.interestRate = interestRate;
