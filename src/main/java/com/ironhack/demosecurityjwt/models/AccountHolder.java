@@ -1,5 +1,6 @@
 package com.ironhack.demosecurityjwt.models;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 
 import java.util.Collection;
@@ -8,6 +9,7 @@ import java.util.Collection;
 public class AccountHolder extends User {
     private String dateOfBirth;
 
+    @Embedded //
     private Address address;
 
     private String mailingAddress;
@@ -15,8 +17,8 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(Long id, String name, Collection<Role> roles, String dateOfBirth, Address address, String mailingAddress) {
-        super(id, name, roles);
+    public AccountHolder(String name, String username, String password, Collection<Role> roles, String dateOfBirth, Address address, String mailingAddress) {
+        super(name, username, password, roles);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.mailingAddress = mailingAddress;

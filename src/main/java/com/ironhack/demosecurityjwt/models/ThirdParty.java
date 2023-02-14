@@ -12,9 +12,9 @@ public class ThirdParty extends User{
     public ThirdParty() {
     }
 
-    public ThirdParty(Long id, String name, Collection<Role> roles, String hashedKey) {
-        super(id, name, roles);
-        this.hashedKey = hashedKey;
+    public ThirdParty(String name, String username, String password, Collection<Role> roles, String hashedKey) {
+        super(name, username, password, roles);
+        setHashedKey(hashedKey);
     }
 
     public String getHashedKey() {

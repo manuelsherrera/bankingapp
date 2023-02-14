@@ -5,6 +5,7 @@ import com.ironhack.demosecurityjwt.enums.Status;
 import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
@@ -23,16 +24,16 @@ public class Account {
     @JoinColumn(name = "secondary_owner_id")
     private User secondaryOwner; //optional
 
-    private Integer penaltyFee = 40;
+    private Money penaltyFee = new Money(new BigDecimal("40"));
 
     public Account() {
     }
 
-    public Account(Money balance, User primaryOwner, User secondaryOwner, Integer penaltyFee) {
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-        this.penaltyFee = penaltyFee;
+    public Account(Money balance, User primaryOwner, User secondaryOwner, Money penaltyFee) {
+        setBalance(balance);
+        setPrimaryOwner(primaryOwner);
+        setSecondaryOwner(secondaryOwner);
+        setPenaltyFee(penaltyFee);
     }
 
     public Money getBalance() {
@@ -59,15 +60,13 @@ public class Account {
         this.secondaryOwner = secondaryOwner;
     }
 
-    public Integer getPenaltyFee() {
+    public Money getPenaltyFee() {
         return penaltyFee;
     }
 
-    public void setPenaltyFee(Integer penaltyFee) {
+    public void setPenaltyFee(Money penaltyFee) {
         this.penaltyFee = penaltyFee;
     }
-
-
 
 
 

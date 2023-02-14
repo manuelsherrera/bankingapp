@@ -1,6 +1,10 @@
 package com.ironhack.demosecurityjwt.models;
 import com.ironhack.demosecurityjwt.enums.Status;
 import jakarta.persistence.Entity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -8,23 +12,23 @@ import java.time.LocalDate;
 public class Savings extends Account{
     private Money balance;
     private Long secretKey;
-    private Integer minimumBalance = 1000;
+    private Money minimumBalance = new Money(new BigDecimal("1000")) ;
 
     private LocalDate creationDate = LocalDate.now();
-    private Double interestRate = 0.0025;
+    private Money interestRate = new Money(new BigDecimal("0.0025"));
     private Status status = Status.ACTIVE;
 
 
     public Savings() {
     }
 
-    public Savings(Money balance, Long secretKey, Integer minimumBalance, LocalDate creationDate, Double interestRate, Status status) {
-        this.balance = balance;
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.creationDate = creationDate;
-        this.interestRate = interestRate;
-        this.status = status;
+    public Savings(Money balance, Long secretKey, Money minimumBalance, LocalDate creationDate, Money interestRate, Status status) {
+        setBalance(balance);
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setCreationDate(creationDate);
+        setInterestRate(interestRate);
+        setStatus(status);
     }
 
     @Override
@@ -45,13 +49,13 @@ public class Savings extends Account{
         this.secretKey = secretKey;
     }
 
-    public Integer getMinimumBalance() {
+    public Money getMinimumBalance() {
         return minimumBalance;
     }
 
-    public void setMinimumBalance(Integer minimumBalance) {
+    public void setMinimumBalance(Money minimumBalance) {
         if( minimumBalance < 100){
-            throw new IllegalArgumentException("Minimum balance should be over 100");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minimum balance should be over 100");
         }
         this.minimumBalance = minimumBalance;
     }
@@ -64,13 +68,13 @@ public class Savings extends Account{
         this.creationDate = creationDate;
     }
 
-    public Double getInterestRate() {
+    public Money getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(Money interestRate) {
         if(interestRate > 0.5 ){
-            throw new IllegalArgumentException("Interest rate can't be over 0.5");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate can't be over 0.5");
         }
         this.interestRate = interestRate;
     }

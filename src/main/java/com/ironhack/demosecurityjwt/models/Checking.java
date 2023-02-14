@@ -11,9 +11,9 @@ public class Checking extends Account{
 
  private Long secretKey;
 
- private Integer minimumBalance = 250;
+ private Money minimumBalance = new Money(new BigDecimal("250"));
 
- private Integer monthlyMaintenanceFee = 12;
+ private Money monthlyMaintenanceFee = new Money(new BigDecimal("40"));//
 
  private LocalDate creationDate = LocalDate.now();
 
@@ -22,12 +22,13 @@ public class Checking extends Account{
     public Checking() {
     }
 
-    public Checking(Long secretKey, Integer minimumBalance, Integer monthlyMaintenanceFee, LocalDate creationDate, Status status) {
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.creationDate = creationDate;
-        this.status = status;
+    public Checking(Money balance, User primaryOwner, User secondaryOwner, Money penaltyFee, Long secretKey, Money minimumBalance, Money monthlyMaintenanceFee, LocalDate creationDate, Status status) {
+        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
+        setCreationDate(creationDate);
+        setStatus(status);
     }
 
     public Long getSecretKey() {
@@ -38,19 +39,19 @@ public class Checking extends Account{
         this.secretKey = secretKey;
     }
 
-    public Integer getMinimumBalance() {
+    public Money getMinimumBalance() {
         return minimumBalance;
     }
 
-    public void setMinimumBalance(Integer minimumBalance) {
+    public void setMinimumBalance(Money minimumBalance) {
         this.minimumBalance = minimumBalance;
     }
 
-    public Integer getMonthlyMaintenanceFee() {
+    public Money getMonthlyMaintenanceFee() {
         return monthlyMaintenanceFee;
     }
 
-    public void setMonthlyMaintenanceFee(Integer monthlyMaintenanceFee) {
+    public void setMonthlyMaintenanceFee(Money monthlyMaintenanceFee) {
         this.monthlyMaintenanceFee = monthlyMaintenanceFee;
     }
 

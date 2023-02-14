@@ -16,10 +16,11 @@ public class StudentChecking extends Account {
     public StudentChecking() {
     }
 
-    public StudentChecking(Long secretKey, LocalDate creationDate, Status status) {
-        this.secretKey = secretKey;
-        this.creationDate = creationDate;
-        this.status = status;
+    public StudentChecking(Money balance, User primaryOwner, User secondaryOwner, Money penaltyFee, Long secretKey, LocalDate creationDate, Status status) {
+        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+        setSecretKey(secretKey);
+        setCreationDate(creationDate);
+        setStatus(status);
     }
 
     public Long getSecretKey() {
