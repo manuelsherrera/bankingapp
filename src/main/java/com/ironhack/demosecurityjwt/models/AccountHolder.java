@@ -14,12 +14,12 @@ public class AccountHolder extends User {
     @JsonIgnore
     private List<Account> primaryOwnerList = new ArrayList<>();
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="street_name",column=@Column(name="primary_street_name")),
-            @AttributeOverride(name="street_number",column=@Column(name="primary_street_number")),
-            @AttributeOverride(name="city_name",column=@Column(name="primary_city_name")),
-            @AttributeOverride(name="zip_code",column=@Column(name="primary_zip_code")),
-    })
+    /*@AttributeOverrides({
+            @AttributeOverride(name="streetName",column=@Column(name="primary_street_name")),
+            @AttributeOverride(name="streetNumber",column=@Column(name="primary_street_number")),
+            @AttributeOverride(name="cityName",column=@Column(name="primary_city_name")),
+            @AttributeOverride(name="zipCode",column=@Column(name="primary_zip_code")),
+    })*/
     private Address address;
 
     @OneToMany(mappedBy = "secondaryOwner")
@@ -27,10 +27,10 @@ public class AccountHolder extends User {
     private List<Account> secondaryOwnerList = new ArrayList<>();
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="street_name",column=@Column(name="mailing_street_name")),
-            @AttributeOverride(name="street_number",column=@Column(name="mailing_street_number")),
-            @AttributeOverride(name="city_name",column=@Column(name="mailing_city_name")),
-            @AttributeOverride(name="zip_code",column=@Column(name="mailing_zip_code")),
+            @AttributeOverride(name="streetName",column=@Column(name="mailing_street_name")),
+            @AttributeOverride(name="streetNumber",column=@Column(name="mailing_street_number")),
+            @AttributeOverride(name="cityName",column=@Column(name="mailing_city_name")),
+            @AttributeOverride(name="zipCode",column=@Column(name="mailing_zip_code")),
     })
     private Address mailingAddress;
 
@@ -39,9 +39,9 @@ public class AccountHolder extends User {
 
     public AccountHolder(String name, String username, String password, Collection<Role> roles, String dateOfBirth, Address address, Address mailingAddress) {
         super(name, username, password, roles);
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.mailingAddress = mailingAddress;
+        setDateOfBirth(dateOfBirth);
+        setAddress(address);
+        setMailingAddress(mailingAddress);
     }
 
     public String getDateOfBirth() {

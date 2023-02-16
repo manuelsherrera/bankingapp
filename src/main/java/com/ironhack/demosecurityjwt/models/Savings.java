@@ -1,3 +1,4 @@
+
 package com.ironhack.demosecurityjwt.models;
 import com.ironhack.demosecurityjwt.enums.Status;
 import jakarta.persistence.*;
@@ -21,25 +22,19 @@ public class Savings extends Account{
 
     private LocalDate creationDate = LocalDate.now();
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="amount",column=@Column(name="interest_rate_amount")),
-            @AttributeOverride(name="currency",column=@Column(name="interest_rate_currency")),
-    })
-    private Money interestRate = new Money(new BigDecimal("0.0025"));
+    private BigDecimal interestRate = new BigDecimal("0.0025");
     private Status status = Status.ACTIVE;
 
 
     public Savings() {
     }
 
-    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, Long secretKey, Money minimumBalance, LocalDate creationDate, Money interestRate, Status status) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
-        this.secretKey = secretKey;
-        this.minimumBalance = minimumBalance;
-        this.creationDate = creationDate;
-        this.interestRate = interestRate;
-        this.status = status;
+    public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Long secretKey, Money minimumBalance) {
+        super(balance, primaryOwner, secondaryOwner);
+        setSecretKey(secretKey);
+        setMinimumBalance(minimumBalance);
+        setInterestRate(interestRate);
+        setStatus(status);
     }
 
     public Long getSecretKey() {
@@ -57,8 +52,12 @@ public class Savings extends Account{
     public void setMinimumBalance(Money minimumBalance) {
         if( minimumBalance.getAmount().compareTo(new BigDecimal("100")) == -1){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minimum balance should be over 100");
+        } else if (minimumBalance == null){
+            this.minimumBalance = new Money(new BigDecimal("1000"));
+        }else {
+            this.minimumBalance = minimumBalance;
         }
-        this.minimumBalance = minimumBalance;
+
     }
 
     public LocalDate getCreationDate() {
@@ -69,12 +68,12 @@ public class Savings extends Account{
         this.creationDate = creationDate;
     }
 
-    public Money getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(Money interestRate) {
-        if(interestRate.getAmount().compareTo(new BigDecimal("0.5")) == 1){
+    public void setInterestRate(BigDecimal interestRate) {
+        if(interestRate.compareTo(new BigDecimal("0.5")) == 1){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate can't be over 0.5");
         }
         this.interestRate = interestRate;
@@ -88,3 +87,4 @@ public class Savings extends Account{
         this.status = status;
     }
 }
+

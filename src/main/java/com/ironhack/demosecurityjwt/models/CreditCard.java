@@ -14,18 +14,14 @@ public class CreditCard extends Account{
             @AttributeOverride(name="currency",column=@Column(name="credit_limit_currency")),
     })
     private Money creditLimit = new Money(new BigDecimal("100"));
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="amount",column=@Column(name="interest_amount")),
-            @AttributeOverride(name="currency",column=@Column(name="interest_currency")),
-    })
-    private Money interestRate = new Money(new BigDecimal("0.2"));
+
+    private BigDecimal interestRate = new BigDecimal("0.2");
 
     public CreditCard() {
     }
 
-    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, Money creditLimit, Money interestRate) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit) {
+        super(balance, primaryOwner, secondaryOwner);
         setCreditLimit(creditLimit);//
         setInterestRate(interestRate);
     }
@@ -41,12 +37,12 @@ public class CreditCard extends Account{
         this.creditLimit = creditLimit;
     }
 
-    public Money getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(Money interestRate) {
-        if(interestRate.getAmount().compareTo(new BigDecimal("0.1")) == -1){
+    public void setInterestRate(BigDecimal interestRate) {
+        if(interestRate.compareTo(new BigDecimal("0.1")) == -1){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate shouldn't be lower than 0.1");
         }
         this.interestRate = interestRate;

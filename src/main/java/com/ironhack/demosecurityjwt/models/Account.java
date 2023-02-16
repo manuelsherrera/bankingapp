@@ -29,16 +29,16 @@ public class Account {
             @AttributeOverride(name="amount",column=@Column(name="penalty_fee_amount")),
             @AttributeOverride(name="currency",column=@Column(name="penalty_fee_currency")),
     })
-    private Money penaltyFee = new Money(new BigDecimal("40"));
+    private final Money penaltyFee = new Money(new BigDecimal("40"));
 
     public Account() {
     }
 
-    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee) {
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         setBalance(balance);
         setPrimaryOwner(primaryOwner);
         setSecondaryOwner(secondaryOwner);
-        setPenaltyFee(penaltyFee);
+
     }
 
     public Money getBalance() {
@@ -69,9 +69,7 @@ public class Account {
         return penaltyFee;
     }
 
-    public void setPenaltyFee(Money penaltyFee) {
-        this.penaltyFee = penaltyFee;
-    }
+
 
 
 

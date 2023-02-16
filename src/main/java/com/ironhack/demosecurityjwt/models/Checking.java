@@ -32,8 +32,8 @@ public class Checking extends Account{
     public Checking() {
     }
 
-    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, Long secretKey, Money minimumBalance, Money monthlyMaintenanceFee, LocalDate creationDate, Status status) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Long secretKey, Money minimumBalance, Money monthlyMaintenanceFee) {
+        super(balance, primaryOwner, secondaryOwner);
         setSecretKey(secretKey);
         setMinimumBalance(minimumBalance);
         setMonthlyMaintenanceFee(monthlyMaintenanceFee);
