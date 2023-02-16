@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Service
 public class AdminService {
@@ -46,14 +48,30 @@ public class AdminService {
 
     }
     // revisar solo devuleve checking.
-    public Checking newChecking(AccountDto accountDto){
+    public Account newChecking(AccountDto accountDto){
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDto.getPrimaryOwnerId()).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
         AccountHolder secondaryOwner = null;
         if (accountDto.getSecondaryOwnerId() != null && accountHolderRepository.findById(accountDto.getSecondaryOwnerId()).isPresent()){
             secondaryOwner = accountHolderRepository.findById(accountDto.getSecondaryOwnerId()).get();
         }
-        Checking checking = new Checking(new Money(new BigDecimal(accountDto.getBalance())), primaryOwner, secondaryOwner, accountDto.getSecretKey(), new Money(new BigDecimal(accountDto.getMinimumBalance())),new Money(new BigDecimal(accountDto.getMonthlyMaintenanceFee())));
-        return checkingRepository.save(checking);
+
+        LocalDate dateOfBirth = accountDto.getDateOfBirth();
+        LocalDate now = LocalDate.now();
+        Period age = Period.between(dateOfBirth, now);
+
+        if (age.getYears() >= 24){
+
+            Checking checking = new Checking(new Money(new BigDecimal(accountDto.getBalance())), primaryOwner, secondaryOwner, accountDto.getSecretKey(), new Money(new BigDecimal(accountDto.getMinimumBalance())),new Money(new BigDecimal(accountDto.getMonthlyMaintenanceFee())));
+            return checkingRepository.save(checking);
+
+        } else {
+            StudentChecking studentChecking = new StudentChecking(new Money(new BigDecimal(accountDto.getBalance())), primaryOwner, secondaryOwner, accountDto.getSecretKey());
+
+            return studentCheckingRepository.save(studentChecking);
+        }
+
+
+
 
     }
 

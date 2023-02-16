@@ -3,13 +3,14 @@ package com.ironhack.demosecurityjwt.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class AccountHolder extends User {
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     @OneToMany(mappedBy = "primaryOwner")
     @JsonIgnore
     private List<Account> primaryOwnerList = new ArrayList<>();
@@ -37,18 +38,18 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(String name, String username, String password, Collection<Role> roles, String dateOfBirth, Address address, Address mailingAddress) {
+    public AccountHolder(String name, String username, String password, Collection<Role> roles, LocalDate dateOfBirth, Address address, Address mailingAddress) {
         super(name, username, password, roles);
         setDateOfBirth(dateOfBirth);
         setAddress(address);
         setMailingAddress(mailingAddress);
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
