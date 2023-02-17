@@ -39,7 +39,7 @@ public class AdminController {
         return adminService.newCreditCard(accountDto);
     }
 
-    @PostMapping("/update_balance")
+    @PutMapping("/update_balance")
     @ResponseStatus(HttpStatus.OK)
     public Money updateBalance(@RequestParam Long id, @RequestParam Money newBalance) {
         return adminService.updateBalance(newBalance, id).getBalance();
