@@ -15,12 +15,6 @@ public class AccountHolder extends User {
     @JsonIgnore
     private List<Account> primaryOwnerList = new ArrayList<>();
     @Embedded
-    /*@AttributeOverrides({
-            @AttributeOverride(name="streetName",column=@Column(name="primary_street_name")),
-            @AttributeOverride(name="streetNumber",column=@Column(name="primary_street_number")),
-            @AttributeOverride(name="cityName",column=@Column(name="primary_city_name")),
-            @AttributeOverride(name="zipCode",column=@Column(name="primary_zip_code")),
-    })*/
     private Address address;
 
     @OneToMany(mappedBy = "secondaryOwner")

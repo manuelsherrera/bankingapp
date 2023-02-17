@@ -29,8 +29,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig {
     // UserDetailsService is an interface provided by Spring Security that defines a way to retrieve user information
-    @Autowired
-    private UserDetailsService userDetailsService;
+    /*@Autowired
+    private UserDetailsService userDetailsService;*/
 
     // Autowired instance of the AuthenticationManagerBuilder
     @Autowired

@@ -15,7 +15,7 @@ public class Checking extends Account{
             @AttributeOverride(name="amount",column=@Column(name="minimum_amount")),
             @AttributeOverride(name="currency",column=@Column(name="minimum_currency")),
     })
- private Money minimumBalance = new Money(new BigDecimal("250"));
+ private final Money minimumBalance = new Money(new BigDecimal("250"));
 
     @Embedded
     @AttributeOverrides({
@@ -23,7 +23,7 @@ public class Checking extends Account{
             @AttributeOverride(name="currency",column=@Column(name="maintenance_fee_currency")),
     })
 
- private Money monthlyMaintenanceFee = new Money(new BigDecimal("12"));//
+ private final Money monthlyMaintenanceFee = new Money(new BigDecimal("12"));//
 
  private LocalDate creationDate = LocalDate.now();
 
@@ -32,11 +32,9 @@ public class Checking extends Account{
     public Checking() {
     }
 
-    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Long secretKey, Money minimumBalance, Money monthlyMaintenanceFee) {
+    public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Long secretKey) {
         super(balance, primaryOwner, secondaryOwner);
         setSecretKey(secretKey);
-        setMinimumBalance(minimumBalance);
-        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
         setCreationDate(creationDate);
         setStatus(status);
     }
@@ -53,17 +51,13 @@ public class Checking extends Account{
         return minimumBalance;
     }
 
-    public void setMinimumBalance(Money minimumBalance) {
-        this.minimumBalance = minimumBalance;
-    }
 
     public Money getMonthlyMaintenanceFee() {
         return monthlyMaintenanceFee;
     }
 
-    public void setMonthlyMaintenanceFee(Money monthlyMaintenanceFee) {
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-    }
+
+
 
     public LocalDate getCreationDate() {
         return creationDate;

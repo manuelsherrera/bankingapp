@@ -1,20 +1,16 @@
 package com.ironhack.demosecurityjwt.dtos;
 
-import java.time.LocalDate;
-
 public class AccountDto {
     private String balance;
     private Long primaryOwnerId;
     private Long secondaryOwnerId;
-
-    private LocalDate dateOfBirth;
 
     private String minimumBalance;
     private Long secretKey;
     private String monthlyMaintenanceFee;
     private String creditLimit;
 
-    public AccountDto(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimumBalance, Long secretKey, String monthlyMaintenanceFee, String creditLimit, LocalDate dateOfBirth) {
+    public AccountDto(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimumBalance, Long secretKey, String monthlyMaintenanceFee, String creditLimit) {
         setBalance(balance);
         setPrimaryOwnerId(primaryOwnerId);
         setSecondaryOwnerId(secondaryOwnerId);
@@ -22,7 +18,6 @@ public class AccountDto {
         setSecretKey(secretKey);
         setMonthlyMaintenanceFee(monthlyMaintenanceFee);
         setCreditLimit(creditLimit);
-        setDateOfBirth(dateOfBirth);
     }
 
     public String getBalance() {
@@ -79,13 +74,5 @@ public class AccountDto {
 
     public void setCreditLimit(String creditLimit) {
         this.creditLimit = creditLimit;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 }

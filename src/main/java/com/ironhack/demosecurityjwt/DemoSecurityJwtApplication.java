@@ -1,8 +1,10 @@
 package com.ironhack.demosecurityjwt;
 
+import com.ironhack.demosecurityjwt.models.AccountHolder;
 import com.ironhack.demosecurityjwt.models.Role;
-import com.ironhack.demosecurityjwt.models.User;
 import com.ironhack.demosecurityjwt.services.impl.UserService;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,13 +22,18 @@ public class DemoSecurityJwtApplication implements CommandLineRunner {
         SpringApplication.run(DemoSecurityJwtApplication.class, args);
     }
 
-    @Bean
+    /*@Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
+*/
+    @Autowired
+    UserService userService;
     @Override
     public void run(String... args) throws Exception {
+
+        userService.saveRole(new Role(null, "ROLE_USER"));
+        userService.saveRole(new Role(null, "ROLE_ADMIN"));
 
     }
 
